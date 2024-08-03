@@ -108,7 +108,7 @@ bool matchPlains(const char *string, const char *pattern, uint32_t len_pl) {
     return false;
 }
 
-bool matchRangeX(const char * string, const char * lower_bounds, const char * upper_bounds) {
+bool INLINE matchRangeX(const char * string, const char * lower_bounds, const char * upper_bounds) {
     __m128i_u a, b, c, d, l, u;
     a = _mm_set1_epi8(*string);
     l = _mm_loadu_si128((__m128i_u *) lower_bounds);
@@ -119,7 +119,7 @@ bool matchRangeX(const char * string, const char * lower_bounds, const char * up
     return !_mm_test_all_ones(d);
 }
 
-bool matchRange8(const char *string, const char *lower_bounds, const char *upper_bounds) {
+bool INLINE matchRange8(const char *string, const char *lower_bounds, const char *upper_bounds) {
     __m128i_u a, b, c, d, l, u;
     a = _mm_set1_epi32(*string);
     l = _mm_loadu_si32((__m128i_u *) lower_bounds);
@@ -130,7 +130,7 @@ bool matchRange8(const char *string, const char *lower_bounds, const char *upper
     return !_mm_test_all_ones(d);
 }
 
-bool matchRange4(const char *string, const char *lower_bounds, const char *upper_bounds) {
+bool INLINE matchRange4(const char *string, const char *lower_bounds, const char *upper_bounds) {
     __m128i_u a, b, c, d, l, u;
     a = _mm_set1_epi32(*string);
     l = _mm_loadu_si32((__m128i_u *) lower_bounds);
@@ -141,7 +141,7 @@ bool matchRange4(const char *string, const char *lower_bounds, const char *upper
     return !_mm_test_all_ones(d);
 }
 
-bool matchRange(const char *string, const char *lower_bounds, const char *upper_bounds) {
+bool INLINE matchRange(const char *string, const char *lower_bounds, const char *upper_bounds) {
     return *lower_bounds <= *string <= *upper_bounds;
 }
 
@@ -168,5 +168,3 @@ bool matchRanges(const char *string, const char *lower_bounds, const char *upper
     }
     return false;
 }
-
-
