@@ -19,8 +19,8 @@ bool INLINE matchSeqX(const char *string, const char *pattern) {
 
 bool INLINE matchSeq8(const char *string, const char *pattern) {
     __m128i_u a, b;
-    a = _mm_loadu_si16(string);
-    b = _mm_loadu_si16(pattern);
+    a = _mm_loadu_si64(string);
+    b = _mm_loadu_si64(pattern);
     return _mm_testc_si128(a, b);
 }
 
@@ -121,11 +121,11 @@ bool INLINE matchRangeX(const char * string, const char * lower_bounds, const ch
 
 bool INLINE matchRange8(const char *string, const char *lower_bounds, const char *upper_bounds) {
     __m128i_u a, b, c, d, l, u;
-    a = _mm_set1_epi32(*string);
-    l = _mm_loadu_si32((__m128i_u *) lower_bounds);
-    u = _mm_loadu_si32((__m128i_u *) upper_bounds);
-    b = _mm_cmplt_epi8(a, l);
-    c = _mm_cmpgt_epi8(a, u);
+    a = _mm_set1_epi16(*string);
+    l = _mm_loadu_si16((__m128i_u *) lower_bounds);
+    u = _mm_loadu_si16((__m128i_u *) upper_bounds);
+    b = _mm_cmplt_epi16(a, l);
+    c = _mm_cmpgt_epi16(a, u);
     d = _mm_or_si128(b, c);
     return !_mm_test_all_ones(d);
 }
@@ -135,14 +135,14 @@ bool INLINE matchRange4(const char *string, const char *lower_bounds, const char
     a = _mm_set1_epi32(*string);
     l = _mm_loadu_si32((__m128i_u *) lower_bounds);
     u = _mm_loadu_si32((__m128i_u *) upper_bounds);
-    b = _mm_cmplt_epi8(a, l);
-    c = _mm_cmpgt_epi8(a, u);
+    b = _mm_cmplt_epi32(a, l);
+    c = _mm_cmpgt_epi32(a, u);
     d = _mm_or_si128(b, c);
     return !_mm_test_all_ones(d);
 }
 
 bool INLINE matchRange(const char *string, const char *lower_bounds, const char *upper_bounds) {
-    return *lower_bounds <= *string <= *upper_bounds;
+    return *lower_bounds <= *string && *string <= *upper_bounds;
 }
 
 bool matchRanges(const char *string, const char *lower_bounds, const char *upper_bounds, uint32_t len_rn) {

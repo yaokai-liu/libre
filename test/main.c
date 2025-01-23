@@ -10,7 +10,7 @@
 #include "libre.h"
 
 int main() {
-    char string RE_ALIGN [] =  "0123456789abcdefghijklmnopqrstuvwxyz";
+    char * string =  "0123456789abcdefghijklmnopqrstuvwxyz";
     char pattern RE_ALIGN [] = "0123456789abcdefghijklmnopqrstu";
     char lower_bounds RE_ALIGN [] = "0123456789abcdefghijklmnopqrstu";
     char upper_bounds RE_ALIGN [] = "123456789abcdefghijklmnopqrstuv";
